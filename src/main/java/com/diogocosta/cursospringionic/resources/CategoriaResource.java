@@ -1,16 +1,10 @@
 package com.diogocosta.cursospringionic.resources;
-
-
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.diogocosta.cursospringionic.domain.Categoria;
 import com.diogocosta.cursospringionic.services.CategoriaService;
 

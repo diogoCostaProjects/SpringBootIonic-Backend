@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.diogocosta.cursospringionic.domain.Categoria;
 import com.diogocosta.cursospringionic.domain.Cidade;
+import com.diogocosta.cursospringionic.domain.Cliente;
+import com.diogocosta.cursospringionic.domain.Endereco;
 import com.diogocosta.cursospringionic.domain.Estado;
 import com.diogocosta.cursospringionic.domain.Produto;
+import com.diogocosta.cursospringionic.domain.enums.TipoCliente;
 import com.diogocosta.cursospringionic.repositories.CategoriaRepository;
 import com.diogocosta.cursospringionic.repositories.CidadeRepository;
+import com.diogocosta.cursospringionic.repositories.ClienteRepository;
+import com.diogocosta.cursospringionic.repositories.EnderecoRepository;
 import com.diogocosta.cursospringionic.repositories.EstadoRepository;
 import com.diogocosta.cursospringionic.repositories.ProdutoRepository;
 
@@ -31,6 +36,12 @@ public class CursomcApplication implements CommandLineRunner {
 	@Autowired
 	CidadeRepository cidadeRepository;
 	
+	@Autowired
+	ClienteRepository clienteRepository;
+	
+	@Autowired
+	EnderecoRepository enderecoRepository;
+	
 	
 	
 	public static void main(String[] args) {
@@ -39,27 +50,6 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... arg0) throws Exception {
-		
-		this.carregarProdutosCategorias();
-		this.carregarEstadoCidade();
-		
-		
-		
-		
-		
-		
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void carregarProdutosCategorias(){
 		
 		Categoria cat1 = new Categoria(1, "Informatica");
 		Categoria cat2 = new Categoria(2, "Escritorio");
@@ -83,12 +73,8 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		categoriaRepository.save(Arrays.asList(cat1,cat2));
 		produtoRepository.save(Arrays.asList(p1,p2,p3));
-	}
+	
 	 
-	
-	
-	public void carregarEstadoCidade(){
-
 		Estado est1 = new Estado(1,"Minas Gerais");
 		Estado est2 = new Estado(2,"Sao Paulo");
 		
@@ -108,9 +94,42 @@ public class CursomcApplication implements CommandLineRunner {
 		estadoRepository.save(Arrays.asList(est1,est2));
 		cidadeRepository.save(Arrays.asList(c1,c2,c3));
 		
+		Cliente cli1 = new Cliente(1,"Maria Silva", "maria@gmail.com","3619210929",TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("12121290","98102981"));
+			
+		clienteRepository.save(cli1);
+	    clienteRepository.flush();
+			
+		    	    
+	    Endereco e1 = new Endereco(1,"Rua Flores", "300", "apto 303", "Jardim", "3822200", c1, cli1);
+		Endereco e2 = new Endereco(2,"Avenida Matos", "105", "sala 800", "Centro", "3899000", c2, cli1);
+			
+		enderecoRepository.save(Arrays.asList(e1,e2));
+		enderecoRepository.flush();
+		
+	    cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+	    
+	    clienteRepository.save(cli1);
+	    
+		
+		
+		
+		
+		
 		
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+		
 	
 	
 	 // Esse cara (ComandLineRunner) roda uma Thread com o "run" e instancia os objetos por fora, 

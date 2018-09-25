@@ -13,6 +13,7 @@ import com.diogocosta.cursospringionic.domain.Cidade;
 import com.diogocosta.cursospringionic.domain.Cliente;
 import com.diogocosta.cursospringionic.domain.Endereco;
 import com.diogocosta.cursospringionic.domain.Estado;
+import com.diogocosta.cursospringionic.domain.ItemPedido;
 import com.diogocosta.cursospringionic.domain.Pagamento;
 import com.diogocosta.cursospringionic.domain.PagamentoComBoleto;
 import com.diogocosta.cursospringionic.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.diogocosta.cursospringionic.repositories.CidadeRepository;
 import com.diogocosta.cursospringionic.repositories.ClienteRepository;
 import com.diogocosta.cursospringionic.repositories.EnderecoRepository;
 import com.diogocosta.cursospringionic.repositories.EstadoRepository;
+import com.diogocosta.cursospringionic.repositories.ItemPedidoRepository;
 import com.diogocosta.cursospringionic.repositories.PagamentoRepository;
 import com.diogocosta.cursospringionic.repositories.PedidoRepository;
 import com.diogocosta.cursospringionic.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+	
+	@Autowired 
+	ItemPedidoRepository itemPedidoRepository;
 	
 	
 	public static void main(String[] args) {
@@ -143,6 +148,20 @@ public class CursomcApplication implements CommandLineRunner {
 	   	    
 	    cli1.getPedidos().addAll(Arrays.asList(ped1,ped2)); 			// apenas faz a referência
 	    clienteRepository.save(cli1);
+	    
+	    ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+	    ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 3, 80.00);
+	    ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+	    
+	    ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+	    ped1.getItens().addAll(Arrays.asList(ip3));
+	    
+	    p1.getItens().addAll(Arrays.asList(ip1));
+	    p2.getItens().addAll(Arrays.asList(ip3));
+	    p3.getItens().addAll(Arrays.asList(ip2));
+	    
+	    
+	    itemPedidoRepository.save(Arrays.asList(ip1,ip2,ip3));
 	    
 	    
 	   

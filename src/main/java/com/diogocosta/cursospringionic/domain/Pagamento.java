@@ -13,6 +13,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.diogocosta.cursospringionic.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED) // para mapear a classe genérica de pagamento, criando um tabelão que contém os campos da classe pai e das classes filhas (OBS: usar apenas quando há poucos campos nas classes filhas)
@@ -24,6 +25,7 @@ public abstract class Pagamento implements Serializable {
 	private Integer id;
 	private Integer estado; // Enum 
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId                                   // Garante que o campo é o mesmo do id do pedido pra não perder a referência 

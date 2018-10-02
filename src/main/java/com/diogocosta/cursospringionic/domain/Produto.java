@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -34,14 +33,14 @@ public class Produto implements Serializable {
 	@Column (name="preco", nullable=false)
 	private double preco;
 	
-	@JsonBackReference
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name="PRODUTO_CATEGORIA", 
 			joinColumns = @JoinColumn(name="produto_id"),   
 			inverseJoinColumns = @JoinColumn(name="categoria_id")   
 	 
 	)
-	/*		 Define a tabela criada pelo banco, quando há relacionamento n/n  
+	/*		 Define a tabela criada pelo banco, quando há relacionamento n/n onde produto  é dominante
 			 e cria as duas chaves estrangeiras para a tabela	
 	*/
 		

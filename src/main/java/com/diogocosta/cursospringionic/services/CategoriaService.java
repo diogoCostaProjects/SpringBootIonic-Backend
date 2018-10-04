@@ -1,9 +1,12 @@
 package com.diogocosta.cursospringionic.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 import com.diogocosta.cursospringionic.domain.Categoria;
 import com.diogocosta.cursospringionic.repositories.CategoriaRepository;
+import com.diogocosta.cursospringionic.services.exceptions.DataIntegrityException;
 import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundException;
 
 //classe de serviço para separação por camadas
@@ -38,5 +41,16 @@ public class CategoriaService {
         find (obj.getId()); // primeiro executa o find pois ele lança uma exceção caso não encontre o objeto que deve ser atualizado 
 		
 		return repo.save(obj);
+	}
+	
+	public void delete(Integer id){
+		
+		find(id);
+		try{
+			repo.delete(id);
+		}
+		catch (DataIntegrityViolationException e){      // Exceção personalizada  
+			throw new  DataIntegrityException("Não é possível excluir uma categoria que possua produtos!");
+		}
 	}
 }

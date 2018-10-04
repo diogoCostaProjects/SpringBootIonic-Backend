@@ -17,11 +17,11 @@ public class CategoriaService {
 	
 	
 	
-	public Categoria buscar(Integer id){
+	public Categoria find(Integer id){
 		Categoria obj = repo.findOne(id);
 		
 		if(obj == null){
-				throw new ObjectNotFoundException("Objeto não encontrado Id: " + id +
+				throw new ObjectNotFoundException("Objeto não encontrado Id: " + id +	
 												",Tipo: "+Categoria.class.getName());
 		}
 		return obj;
@@ -30,8 +30,13 @@ public class CategoriaService {
 	
 	
 	public Categoria insert(Categoria obj){
+		return repo.save(obj);
+	}
+	
+	
+	public Categoria update(Categoria obj){
+        find (obj.getId()); // primeiro executa o find pois ele lança uma exceção caso não encontre o objeto que deve ser atualizado 
 		
-		 							// seta o id como null pois senão o Spring Data considera como um update e não insert 
 		return repo.save(obj);
 	}
 }

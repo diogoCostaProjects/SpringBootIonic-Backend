@@ -14,6 +14,9 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	
+	
+	
+	
 	public Categoria buscar(Integer id){
 		Categoria obj = repo.findOne(id);
 		
@@ -22,5 +25,13 @@ public class CategoriaService {
 												",Tipo: "+Categoria.class.getName());
 		}
 		return obj;
+	}
+	
+	
+	
+	public Categoria insert(Categoria obj){
+		
+		 							// seta o id como null pois senão o Spring Data considera como um update e não insert 
+		return repo.save(obj);
 	}
 }

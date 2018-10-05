@@ -71,12 +71,19 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		Categoria cat1 = new Categoria(1, "Informatica");
 		Categoria cat2 = new Categoria(2, "Escritorio");
+		Categoria cat3 = new Categoria(4, "Cama mesa e banho");
+		Categoria cat4 = new Categoria(5, "Jardinagem");
+		Categoria cat5 = new Categoria(6, "Eletronicos");
+		Categoria cat6 = new Categoria(7, "Perfumaria");
+		Categoria cat7 = new Categoria(8, "Decoração");
+		
+		
 		
 		Produto p1 = new Produto(1, "computador", 2000.00);
 		Produto p2 = new Produto(2, "impressora", 800.00);
 		Produto p3 = new Produto(3, "mouse", 80.00);
 		
-		categoriaRepository.save(Arrays.asList(cat1, cat2));
+		categoriaRepository.save(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7));
 		produtoRepository.save(Arrays.asList(p1,p2,p3));
 	    
 		categoriaRepository.flush(); // utilizado pois os objetos estavam como Disatached

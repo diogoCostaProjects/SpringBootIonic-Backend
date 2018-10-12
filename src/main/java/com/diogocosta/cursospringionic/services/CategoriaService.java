@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.diogocosta.cursospringionic.domain.Categoria;
+import com.diogocosta.cursospringionic.dto.CategoriaDTO;
 import com.diogocosta.cursospringionic.repositories.CategoriaRepository;
 import com.diogocosta.cursospringionic.services.exceptions.DataIntegrityException;
 import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundException;
@@ -68,6 +69,12 @@ public class CategoriaService {
 		PageRequest pageRequest = new PageRequest(page,linesPerPage, Direction.valueOf(direction), orderBy);
 		
 		return repo.findAll(pageRequest);
+	}
+	
+	// Converte de DTO para categoria, pra fazer a inserção no banco 
+	public Categoria fromDto(CategoriaDTO objDto){
+		
+		return new Categoria(objDto.getId(), objDto.getNome());
 	}
 }
 

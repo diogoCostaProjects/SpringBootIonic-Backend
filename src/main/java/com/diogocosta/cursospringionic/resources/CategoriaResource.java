@@ -2,7 +2,7 @@ package com.diogocosta.cursospringionic.resources;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,8 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){
+		Categoria obj = service.fromDto(objDto);        // Para fazer a validação precisa que seja CategoriaDTO, pra não ficar buscando dados do banco 
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/id{}").buildAndExpand(obj.getId()).toUri();       // usa os padrões de retorno de requição para setar e criar a URI nova com o novo dado disponível
@@ -46,8 +47,9 @@ public class CategoriaResource {
 	// Pega o id via GET da URL e busca pela categoria para fazer o update  
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
-		obj.setId(id);
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
+		objDto.setId(id); 							// seta pois não estava montando o objeto com o id, por isso pegao id do @PathVariable
+		Categoria obj = service.fromDto(objDto);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
@@ -57,6 +59,7 @@ public class CategoriaResource {
 		service.delete(id);
 		
 		return ResponseEntity.noContent().build();
+
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
@@ -76,10 +79,16 @@ public class CategoriaResource {
 			@RequestParam (value="direction", defaultValue="ASC")	String direction){
 		
 		Page<Categoria> list = service.findPage(page,linesPerPage,orderBy,direction);
-		Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj)); // Mapeia e gera um objeto CategoriaDTO a partir das Categorias
+		Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj)); // Não precisa montar a List como no findAll pois o objeto Page já é do JAVA 8 
 		
 		return ResponseEntity.ok().body(listDto);
 	}
+	
+	
+	/* Mapeia e gera um objeto CategoriaDTO a partir das Categorias 
+	 * fazendo a paginação, onde se passa os parâmetros via requestParam e ele monta a resposta
+	 * 
+	 * */
 }
 
 

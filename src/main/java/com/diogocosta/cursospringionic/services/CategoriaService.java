@@ -49,6 +49,9 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 	
+	
+	
+	
 	public void delete(Integer id){
 		
 		find(id);
@@ -65,11 +68,16 @@ public class CategoriaService {
 		
 	}
 	
+	
+	
+	
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = new PageRequest(page,linesPerPage, Direction.valueOf(direction), orderBy);
 		
 		return repo.findAll(pageRequest);
 	}
+	
+	
 	
 	// Converte de DTO para categoria, pra fazer a inserção no banco 
 	public Categoria fromDto(CategoriaDTO objDto){

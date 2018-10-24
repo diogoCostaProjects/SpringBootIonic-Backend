@@ -1,21 +1,18 @@
 package com.diogocosta.cursospringionic.services;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-
 import com.diogocosta.cursospringionic.domain.Cliente;
 import com.diogocosta.cursospringionic.dto.ClienteDTO;
 import com.diogocosta.cursospringionic.repositories.ClienteRepository;
 import com.diogocosta.cursospringionic.services.exceptions.DataIntegrityException;
 import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundException;
 
-//classe de serviço para separação por camadas
 
 @Service
 public class ClienteService {

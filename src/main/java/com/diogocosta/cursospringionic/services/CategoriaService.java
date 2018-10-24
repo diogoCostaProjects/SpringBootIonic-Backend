@@ -44,9 +44,9 @@ public class CategoriaService {
 	
 	
 	public Categoria update(Categoria obj){
-        find (obj.getId()); // primeiro executa o find pois ele lança uma exceção caso não encontre o objeto que deve ser atualizado 
-		
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId()); 
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 	
 	
@@ -83,6 +83,11 @@ public class CategoriaService {
 	public Categoria fromDto(CategoriaDTO objDto){
 		
 		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj){
+		newObj.setNome(obj.getNome());
+		
 	}
 }
 

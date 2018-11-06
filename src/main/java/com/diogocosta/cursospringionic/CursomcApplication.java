@@ -71,35 +71,57 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		Categoria cat1 = new Categoria(1, "Informatica");
 		Categoria cat2 = new Categoria(2, "Escritorio");
-		Categoria cat3 = new Categoria(4, "Cama mesa e banho");
-		Categoria cat4 = new Categoria(5, "Jardinagem");
-		Categoria cat5 = new Categoria(6, "Eletronicos");
-		Categoria cat6 = new Categoria(7, "Perfumaria");
-		Categoria cat7 = new Categoria(8, "Decoração");
+		Categoria cat3 = new Categoria(3, "Cama mesa e banho");
+		Categoria cat4 = new Categoria(4, "Jardinagem");
+		Categoria cat5 = new Categoria(5, "Eletronicos");
+		Categoria cat6 = new Categoria(6, "Perfumaria");
+		Categoria cat7 = new Categoria(7, "Decoração");
 		
-		
+		categoriaRepository.save(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7));
+		categoriaRepository.flush();
 		
 		Produto p1 = new Produto(1, "computador", 2000.00);
 		Produto p2 = new Produto(2, "impressora", 800.00);
 		Produto p3 = new Produto(3, "mouse", 80.00);
+		Produto p4 = new Produto(4, "mesa de escritório", 300.00);
+		Produto p5 = new Produto(5, "toalha", 50.00);
+		Produto p6 = new Produto(6, "colcha", 200.00);
+		Produto p7 = new Produto(7, "TV true color", 1200.00);
+		Produto p8 = new Produto(8, "roçadeira", 800.00);
+		Produto p9 = new Produto(9, "abajour", 100.00);
+		Produto p10 = new Produto(10, "pindurico", 80.00);
+		Produto p11 = new Produto(11, "shampoo", 80.00);
 		
-		categoriaRepository.save(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7));
-		produtoRepository.save(Arrays.asList(p1,p2,p3));
-	    
-		categoriaRepository.flush(); // utilizado pois os objetos estavam como Disatached
-	    produtoRepository.flush();
+		produtoRepository.save(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
+		produtoRepository.flush();	
 		
 	    cat1.getProdutos().addAll(Arrays.asList(p1,p2,p3));
-		cat2.getProdutos().add(p2);
+		cat2.getProdutos().addAll(Arrays.asList(p2,p4));
+		cat2.getProdutos().addAll(Arrays.asList(p2, p4));
+		cat3.getProdutos().addAll(Arrays.asList(p5, p6));
+		cat4.getProdutos().addAll(Arrays.asList(p1, p2, p3, p7));
+		cat5.getProdutos().addAll(Arrays.asList(p8));
+		cat6.getProdutos().addAll(Arrays.asList(p9, p10));
+		cat7.getProdutos().add(p11);
 		
-		p1.getCategorias().add(cat1);
-		p2.getCategorias().addAll(Arrays.asList(cat1,cat2));
-		p3.getCategorias().addAll(Arrays.asList(cat1));
+		categoriaRepository.save(Arrays.asList(cat1, cat2,cat3,cat4,cat5,cat6,cat7));
+		categoriaRepository.flush();  // Salvo denovo para linkar os objetos 
 		
-		categoriaRepository.save(Arrays.asList(cat1,cat2));
-		produtoRepository.save(Arrays.asList(p1,p2,p3));
-	
-	 
+		p1.getCategorias().addAll(Arrays.asList(cat1, cat4));
+		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat4));
+		p3.getCategorias().addAll(Arrays.asList(cat1, cat4));
+		p4.getCategorias().addAll(Arrays.asList(cat2));
+		p5.getCategorias().addAll(Arrays.asList(cat3));
+		p6.getCategorias().addAll(Arrays.asList(cat3));
+		p7.getCategorias().addAll(Arrays.asList(cat4));
+		p8.getCategorias().addAll(Arrays.asList(cat5));
+		p9.getCategorias().addAll(Arrays.asList(cat6));
+		p10.getCategorias().addAll(Arrays.asList(cat6));
+		p11.getCategorias().addAll(Arrays.asList(cat7));
+			
+		produtoRepository.save(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
+		produtoRepository.flush();
+	     
 		Estado est1 = new Estado(1,"Minas Gerais");
 		Estado est2 = new Estado(2,"Sao Paulo");
 		
@@ -169,14 +191,7 @@ public class CursomcApplication implements CommandLineRunner {
 	    
 	    
 	    itemPedidoRepository.save(Arrays.asList(ip1,ip2,ip3));
-	    
-	    
-	   
-	    
-	   
-	    
-	    
-		
+	    	
 		
 		
 		
@@ -184,20 +199,7 @@ public class CursomcApplication implements CommandLineRunner {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-		
-	
-	
 	 // Esse cara (ComandLineRunner) roda uma Thread com o "run" e instancia os objetos por fora, 
-	//  já preparando o banco H2, que funciona todo m memória,
+	//  já preparando o banco H2, que funciona todo em memória,
 	//  e por isso não guarda nada em disco como um banco normal
 }

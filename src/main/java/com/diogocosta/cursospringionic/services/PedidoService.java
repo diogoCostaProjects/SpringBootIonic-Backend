@@ -8,22 +8,26 @@ import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundExcepti
 
 //classe de serviço para separação por camadas
 
-@Service  
+@Service
 public class PedidoService {
-	
+
 	@Autowired
 	private PedidoRepository repo;
-	
-	
-	public Pedido find(Integer id){
-		
+
+	public Pedido find(Integer id) {
+
 		Pedido obj = repo.findOne(id);
-		
-		
-		if(obj == null){  // testa se não retornou e lança a exeção caso nao venha nada
-				throw new ObjectNotFoundException("Objeto não encontrado Id: " + id +
-												",Tipo: "+Pedido.class.getName());
+
+		if (obj == null) { // testa se não retornou e lança a exeção caso nao
+							// venha nada
+			throw new ObjectNotFoundException("Objeto não encontrado Id: " + id + ",Tipo: " + Pedido.class.getName());
 		}
 		return obj;
+	}
+
+	public Pedido insert(Pedido obj) {
+		repo.save(obj);
+		return obj;
+
 	}
 }

@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.diogocosta.cursospringionic.domain.Cidade;
 import com.diogocosta.cursospringionic.domain.Cliente;
 import com.diogocosta.cursospringionic.domain.Endereco;

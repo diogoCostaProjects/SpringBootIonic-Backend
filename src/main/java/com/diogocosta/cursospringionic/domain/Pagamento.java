@@ -14,9 +14,11 @@ import javax.persistence.OneToOne;
 
 import com.diogocosta.cursospringionic.domain.enums.EstadoPagamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED) // para mapear a classe genérica de pagamento, criando um tabelão que contém os campos da classe pai e das classes filhas (OBS: usar apenas quando há poucos campos nas classes filhas)
+@Inheritance(strategy=InheritanceType.JOINED) 					// para mapear a classe genérica de pagamento, criando um tabelão que contém os campos da classe pai e das classes filhas (OBS: usar apenas quando há poucos campos nas classes filhas)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

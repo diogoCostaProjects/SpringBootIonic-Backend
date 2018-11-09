@@ -54,7 +54,7 @@ public class PedidoService {
 		if (obj.getPagamento() instanceof PagamentoComBoleto) {
 			PagamentoComBoleto pagto = (PagamentoComBoleto) obj.getPagamento();
 			boletoService.preencherPagamentoComBoleto(pagto, obj.getInstante());
-		}
+		}	
 		obj = repo.save(obj);
 		pagamentoRepository.save(obj.getPagamento());
 

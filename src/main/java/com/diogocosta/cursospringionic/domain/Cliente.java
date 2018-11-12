@@ -45,6 +45,8 @@ public class Cliente implements Serializable {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
+	/* Relembrando, que o mappedBy vai na classe oposta a classe dona da relação, 
+	para dizer nesse caso que a dona da relacao e a classe Pedido, deve referenciar o objeto cliente de la */
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente(){	

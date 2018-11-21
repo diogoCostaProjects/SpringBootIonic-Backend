@@ -19,6 +19,7 @@ import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundExcepti
 @Service
 public class PedidoService {
 
+	
 	@Autowired
 	private PedidoRepository repo;
 
@@ -33,6 +34,9 @@ public class PedidoService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private ClienteService clienteService;
 
 	public Pedido find(Integer id) {
 
@@ -48,6 +52,7 @@ public class PedidoService {
 	public Pedido insert(Pedido obj) {
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));  // Desta maneira insere os dados do cliente, pegando pelo id que já era inseido no POST
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 
@@ -60,11 +65,13 @@ public class PedidoService {
 
 		for (ItemPedido ip : obj.getItens()) {
 			ip.setDesconto(0.0);
-			ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
-			ip.setPedido(obj);
+			ip.setProduto(produtoService.find(ip.getProduto().getId()));
+			ip.setPreco(ip.getProduto().getPreco());
+		    ip.setPedido(obj);
 		}
 		itemPedidoRepository.save(obj.getItens());
 
+		System.out.println(obj);
 		return obj;
 
 	}

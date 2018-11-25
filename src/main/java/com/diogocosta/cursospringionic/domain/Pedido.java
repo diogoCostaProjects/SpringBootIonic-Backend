@@ -165,7 +165,7 @@ public class Pedido implements Serializable {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("Pedido número: ");
+		builder.append("Aplicação Spring Boot - Pedido número: ");
 		builder.append(getId());
 		builder.append(", Instante: ");
 		builder.append(sdf.format(getInstante()));
@@ -174,6 +174,7 @@ public class Pedido implements Serializable {
 		builder.append(", Situação do pagamento: ");
 		builder.append(getPagamento().getEstado().getDescricao());
 		builder.append(", \nDetalhes: \n");
+		
 		for(ItemPedido ip: getItens()){
 			builder.append(ip.toString());
 		}

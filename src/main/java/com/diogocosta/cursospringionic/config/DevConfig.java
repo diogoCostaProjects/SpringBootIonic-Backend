@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.diogocosta.cursospringionic.services.DBService;
+import com.diogocosta.cursospringionic.services.EmailService;
+import com.diogocosta.cursospringionic.services.SmtpEmailService;
 
 @Configuration
 @Profile("dev") /*
@@ -24,15 +26,21 @@ public class DevConfig {
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String strategy;
 	
+	
+	
 	@Bean
 	public boolean instantiateDatabase() throws ParseException {
 		
 		if(!"create".equals(strategy)){
 			return false;
 		}
-		
 		dbService.instantiateDatabase();
-		return true;
+			return true;
+	}
+	
+	@Bean
+	public EmailService emailService(){
+		return new SmtpEmailService();
 	}
 
 }

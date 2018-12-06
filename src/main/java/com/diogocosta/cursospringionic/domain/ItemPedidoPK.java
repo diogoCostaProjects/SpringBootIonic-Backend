@@ -1,4 +1,4 @@
-package com.diogocosta.cursospringionic.domain;
+	package com.diogocosta.cursospringionic.domain;
 
 import java.io.Serializable;
 

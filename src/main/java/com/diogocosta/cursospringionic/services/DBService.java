@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.diogocosta.cursospringionic.domain.Categoria;
@@ -33,6 +34,8 @@ import com.diogocosta.cursospringionic.repositories.ProdutoRepository;
 @Service
 public class DBService { // Faz toda instanciação do banco de dados 
 	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 	
 	@Autowired
 	CategoriaRepository categoriaRepository;
@@ -137,7 +140,7 @@ public class DBService { // Faz toda instanciação do banco de dados
 		estadoRepository.save(Arrays.asList(est1, est2));
 		cidadeRepository.save(Arrays.asList(c1, c2, c3));
 
-		Cliente cli1 = new Cliente(1, "Maria Silva", "diogocosta.jar@gmail.com", "3619210929", TipoCliente.PESSOAFISICA);
+		Cliente cli1 = new Cliente(1, "Maria Silva", "diogocosta.jar@gmail.com", "3619210929", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("12121290", "98102981"));
 
 		clienteRepository.save(cli1);

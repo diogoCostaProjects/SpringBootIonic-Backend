@@ -20,6 +20,7 @@ import com.diogocosta.cursospringionic.domain.PagamentoComCartao;
 import com.diogocosta.cursospringionic.domain.Pedido;
 import com.diogocosta.cursospringionic.domain.Produto;
 import com.diogocosta.cursospringionic.domain.enums.EstadoPagamento;
+import com.diogocosta.cursospringionic.domain.enums.Perfil;
 import com.diogocosta.cursospringionic.domain.enums.TipoCliente;
 import com.diogocosta.cursospringionic.repositories.CategoriaRepository;
 import com.diogocosta.cursospringionic.repositories.CidadeRepository;
@@ -140,21 +141,26 @@ public class DBService { // Faz toda instanciação do banco de dados
 		estadoRepository.save(Arrays.asList(est1, est2));
 		cidadeRepository.save(Arrays.asList(c1, c2, c3));
 
-		Cliente cli1 = new Cliente(1, "Maria Silva", "diogocosta.jar@gmail.com", "3619210929", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		Cliente cli1 = new Cliente(1, "Maria Silva", "diogocosta.js@gmail.com", "3619210929", TipoCliente.PESSOAFISICA, pe.encode("123"));
 		cli1.getTelefones().addAll(Arrays.asList("12121290", "98102981"));
 
-		clienteRepository.save(cli1);
+		Cliente cli2 = new Cliente(2, "Ana Costa", "diogocosta.jar@gmail.com", "01347577009", TipoCliente.PESSOAFISICA, pe.encode("123"));
+		cli2.addPerfil(Perfil.ADMIN);
+		cli1.getTelefones().addAll(Arrays.asList("1111121290", "99102981"));
+		
+		clienteRepository.save(Arrays.asList(cli1, cli2));
 		clienteRepository.flush();
 
 		Endereco e1 = new Endereco(1, "Rua Flores", "300", "apto 303", "Jardim", "3822200", c1, cli1);
 		Endereco e2 = new Endereco(2, "Avenida Matos", "105", "sala 800", "Centro", "3899000", c2, cli1);
-
-		enderecoRepository.save(Arrays.asList(e1, e2));
+		Endereco e3 = new Endereco(2, "Avenida Floriano", "2106", null, "Centro", "2899000", c2, cli2);
+		
+		enderecoRepository.save(Arrays.asList(e1, e2, e3));
 		enderecoRepository.flush();
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
-		clienteRepository.save(cli1);
+		clienteRepository.save(Arrays.asList(cli1, cli2));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 

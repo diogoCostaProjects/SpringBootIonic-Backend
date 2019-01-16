@@ -19,11 +19,12 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.diogocosta.cursospringionic.services.security.JWTAuthenticationFilter;
+import com.diogocosta.cursospringionic.services.security.JWTAuthorizationFilter;
 import com.diogocosta.cursospringionic.services.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
 	@Autowired
@@ -58,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.anyRequest().authenticated();
 				http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Pois não trabalha com seções
 				http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil)); // adiciona o filtro criado para autenticação
+				http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService));
 				
 				if (Arrays.asList(env.getActiveProfiles()).contains("test")) { // Verifica os profiles ativos, se for o profile Test, libera o acesso ao H2-console
 					http.headers().frameOptions().disable();
@@ -70,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
 	@Bean
-	CorsConfigurationSource corsConfigurationsource(){
+	CorsConfigurationSource corsConfigurationsource() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
 		

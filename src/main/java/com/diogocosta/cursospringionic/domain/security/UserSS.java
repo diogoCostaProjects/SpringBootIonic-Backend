@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import com.diogocosta.cursospringionic.domain.enums.Perfil;
 
 
@@ -77,6 +78,10 @@ public class UserSS implements UserDetails { // Classe para fazer as validaçõe
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	
+	public boolean hasRole(Perfil perfil) { // verifica na lista de autorizações se um usuário possui determinado perfil (ADMIN, CLIENTE, ETC...)
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
 	}
 
 }

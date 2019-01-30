@@ -10,14 +10,18 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.diogocosta.cursospringionic.domain.Cidade;
 import com.diogocosta.cursospringionic.domain.Cliente;
 import com.diogocosta.cursospringionic.domain.Endereco;
+import com.diogocosta.cursospringionic.domain.enums.Perfil;
 import com.diogocosta.cursospringionic.domain.enums.TipoCliente;
+import com.diogocosta.cursospringionic.domain.security.UserSS;
 import com.diogocosta.cursospringionic.dto.ClienteDTO;
 import com.diogocosta.cursospringionic.dto.ClienteNewDTO;
 import com.diogocosta.cursospringionic.repositories.ClienteRepository;
 import com.diogocosta.cursospringionic.repositories.EnderecoRepository;
+import com.diogocosta.cursospringionic.services.exceptions.AuthorizationException;
 import com.diogocosta.cursospringionic.services.exceptions.DataIntegrityException;
 import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundException;
 
@@ -42,6 +46,11 @@ public class ClienteService {
 	}	
 
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())){
+			throw new AuthorizationException("Acesso negado");
+		}	 
 		
 		Cliente obj = repo.findOne(id);
 		if (obj == null) {

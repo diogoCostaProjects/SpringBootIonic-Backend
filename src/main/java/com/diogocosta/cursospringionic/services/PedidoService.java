@@ -3,15 +3,21 @@ package com.diogocosta.cursospringionic.services;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.diogocosta.cursospringionic.domain.Cliente;
 import com.diogocosta.cursospringionic.domain.ItemPedido;
 import com.diogocosta.cursospringionic.domain.PagamentoComBoleto;
 import com.diogocosta.cursospringionic.domain.Pedido;
 import com.diogocosta.cursospringionic.domain.enums.EstadoPagamento;
+import com.diogocosta.cursospringionic.domain.security.UserSS;
 import com.diogocosta.cursospringionic.repositories.ItemPedidoRepository;
 import com.diogocosta.cursospringionic.repositories.PagamentoRepository;
 import com.diogocosta.cursospringionic.repositories.PedidoRepository;
+import com.diogocosta.cursospringionic.services.exceptions.AuthorizationException;
 import com.diogocosta.cursospringionic.services.exceptions.ObjectNotFoundException;
 
 //classe de serviço para separação por camadas
@@ -84,5 +90,19 @@ public class PedidoService {
 		System.out.println(obj);
 		return obj;
 
+	}
+	
+	//retorna os pedidos do cliente acessado, verificando os dados de autenticação
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		UserSS user = UserService.authenticated();	
+		
+		if(user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		PageRequest pageRequest = new PageRequest(page,linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.find(user.getId());
+		
+		return repo.findByCliente(cliente, pageRequest);
 	}
 }

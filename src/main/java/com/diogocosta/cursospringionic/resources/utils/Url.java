@@ -12,7 +12,9 @@ public class Url {
 	public static List<Integer> decodeintList(String s) {
 
 		// COM LAMBDA
-		return Arrays.asList(s.split(",")).stream().map(x -> Integer.parseInt(x)).collect(Collectors.toList());
+		return Arrays.asList(s.split(",")).stream()
+				.map(x -> Integer.parseInt(x))
+				.collect(Collectors.toList());
 	}
 
 	public static String decodeParam(String s) { // Decodifica caso o usuário passe nome com espaço no parâmetro

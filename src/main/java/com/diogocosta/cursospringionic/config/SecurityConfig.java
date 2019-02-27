@@ -47,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	
 	private static final String[] PUBLIC_MATCHERS_POST = { // Acesso apenas a leitura dos dados 
-			"/clientes/**"
+			"/clientes/**",
+			"/auth/forgot/**"
 			
 	};
 	
